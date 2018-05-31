@@ -69,7 +69,7 @@ function lockMatchingCards (cards) {
     cards.forEach(function (c) {
         c.classList.add('match');
         c.classList.remove('open', 'show');
-        removeShowingCard(c);
+        //removeShowingCard(c);
     });
 
     mainHeader.textContent = 'Matched!';  // Debugging
@@ -81,7 +81,7 @@ function matchFail (cards) {
     setTimeout(function() {
         cards.forEach(function (c) {
             flipCard(c);
-            removeShowingCard(c);
+            //removeShowingCard(c);
         });
     }, 500);
 }
@@ -107,22 +107,21 @@ allCards.forEach (function (card) {
             // Show the card
             flipCard(card);
             addShowingCard(card);
-
-             // If we have 2 cards up now, check for a match
-             if (faceUp.length === 2) {
-                 if (faceUp[0] == faceUp[1]) {
-                    // It's a match
-                    mainHeader.textContent = 'Got a match';  // Debugging
-                    lockMatchingCards(faceUp);
-                 } else {
-                    mainHeader.textContent = 'Match failed';  // Debugging
-                    matchFail(faceUp);
-                 }
-
-             }
-            } 
-      
         }
+      }
+
+      // If we have 2 cards up now, check for a match
+      if (faceUp.length === 2) {
+        if (faceUp[0].children[0].classList.value === faceUp[1].children[0].classList.value) {
+            // It's a match
+            mainHeader.textContent = 'Got a match';  // Debugging
+            lockMatchingCards(faceUp);
+        } else {
+            mainHeader.textContent = 'Match failed';  // Debugging
+            matchFail(faceUp);
+        }
+        faceUp = [];  // Either way, we have no cards left face up
+      }
         // TO DO: Implement move counter
         // TO DO: If all cards matched, show final score
     });
