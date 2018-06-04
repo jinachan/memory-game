@@ -38,7 +38,7 @@ const stars = document.querySelector('.stars');
 const modal = document.querySelector('.modal');
 const congrats = document.querySelector('#congrats');
 const closeButton = document.querySelector('.close-button');
-const restart = document.querySelector('.restart');
+const restartButton = document.querySelector('.restart');
 
 /* For debugging: */
 const mainHeader = document.querySelector('.container h1');
@@ -139,7 +139,7 @@ closeButton.addEventListener('click', toggleModal);
 window.addEventListener('click', windowOnClick);
 
 function gameWon() {
-    // TO DO: Add text to the modal to tell the user how much time it took to win the game, and what the star rating was. 
+    // TO DO: tell the user how much time it took to win the game 
     congrats.innerHTML = `<p>You won the game in TBD time with ${numStars} stars`;
     // TO DO: Add a "play again" button to the modal
     toggleModal();
@@ -177,11 +177,11 @@ function cardClickListener(event) {
     if (faceUp.length === 2) {
         if (faceUp[0].children[0].classList.value === faceUp[1].children[0].classList.value) {
             // It's a match
-            mainHeader.textContent = 'Got a match';  // Debugging
+            // mainHeader.textContent = 'Got a match';  // Debugging
             lockMatchingCards(faceUp);
             numMatches++;
         } else {
-            mainHeader.textContent = 'Sorry, not a match';  // Debugging
+            // mainHeader.textContent = 'Sorry, not a match';  // Debugging
             matchFail(faceUp);
         }
         faceUp = [];  // Either way, we have no cards left face up
@@ -247,5 +247,4 @@ function initGame() {
 initGame();
 
 // Event listener for restart icon, that shuffles array and resets scoreboard
-restart.addEventListener('click', initGame() );
-
+restartButton.addEventListener('click', initGame);
