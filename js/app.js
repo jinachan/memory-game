@@ -26,6 +26,8 @@ let allCards = [];
 let faceUp = [];
 let numMoves = 0;
 let numMatches = 0;
+let numStars = 3;
+const maxStars = 3;
 
 /* 
  * DOM elements
@@ -33,10 +35,13 @@ let numMatches = 0;
 const deck = document.querySelector('.deck');
 const moveCounter = document.querySelector('.moves');
 const stars = document.querySelector('.stars');
+const modal = document.querySelector('.modal');
+const congrats = document.querySelector('#congrats');
+const closeButton = document.querySelector('.close-button');
+const restart = document.querySelector('.restart');
 
 /* For debugging: */
-const mainHeader = document.querySelector('h1');
-const restart = document.querySelector('.restart');
+const mainHeader = document.querySelector('.container h1');
 
 
 /*
@@ -51,27 +56,27 @@ const restart = document.querySelector('.restart');
  */
 
 /* Helper functions */
-function flipCard (card) {
+function flipCard(card) {
     // Toggle the classes so the card flips
     card.classList.toggle('open');
     card.classList.toggle('show');
 }
 
-function addShowingCard (card) {
+function addShowingCard(card) {
     // Add card to faceUp array
     faceUp.push(card);
 
     // mainHeader.textContent = 'Cards showing: ' + faceUp.length;  // Debugging
 }
 
-function removeShowingCard (card) {
+function removeShowingCard(card) {
     // Remove card from faceUp array
     faceUp.pop(card);
 
     // mainHeader.textContent = 'Cards showing: ' + faceUp.length;  // Debugging
 }
 
-function lockMatchingCards (cards) {
+function lockMatchingCards(cards) {
     cards.forEach(function (c) {
         c.classList.add('match');
         c.classList.remove('open', 'show');
@@ -80,7 +85,7 @@ function lockMatchingCards (cards) {
     // mainHeader.textContent = 'Matched!';  // Debugging
 }
 
-function matchFail (cards) {
+function matchFail(cards) {
     // No match: turn them both back over, with a delay
     setTimeout(function() {
         cards.forEach(function (c) {
@@ -93,7 +98,7 @@ function generateStar() {
     return '<li><i class="fa fa-star"></i></li>';
 }
 
-function adjustScoreBoard () {
+function adjustScoreBoard() {
     // Update move counter
     moveCounter.textContent = numMoves;
     // mainHeader.textContent = 'Stars: ' + stars.outerHTML; // Debugging
@@ -102,18 +107,42 @@ function adjustScoreBoard () {
         // Initialize the stars
         // Create the HTML for 3 stars
         let starHTML = '';
-        for (let i=0; i<3; i++) {
+        for (let i=0; i<maxStars; i++) {
             starHTML += generateStar();
             // mainHeader.textContent = 'starHTML: ' + starHTML; // Debugging
         }
-        
         stars.innerHTML =  starHTML;
     } else if (numMoves === 25 || numMoves === 35) {
         // Decrease stars <li>s as numMoves increases
         // Decrease stars by one -- remove the first star in the list
         // mainHeader.textContent = 'Removing a star: ' + stars.firstElementChild.outerHTML; // Debugging
         stars.firstElementChild.remove();
+        numStars--;
     }
+}
+
+/*
+ * Modal dialog box event handling
+ * Credit: https://sabe.io/tutorials/how-to-create-modal-popup-box
+ */
+function toggleModal() {
+    modal.classList.toggle('show-modal');
+}
+
+function windowOnClick(event) {
+    if (event.target === modal) {
+        toggleModal;
+    }
+}
+
+closeButton.addEventListener('click', toggleModal);
+window.addEventListener('click', windowOnClick);
+
+function gameWon() {
+    // TO DO: Add text to the modal to tell the user how much time it took to win the game, and what the star rating was. 
+    congrats.innerHTML = `<p>You won the game in TBD time with ${numStars} stars`;
+    // TO DO: Add a "play again" button to the modal
+    toggleModal();
 }
 
 /*
@@ -160,8 +189,10 @@ function cardClickListener(event) {
 
     adjustScoreBoard();
  
-    // TO DO: If all cards matched, show Congratulations popup
-    
+    // If all cards matched, show Congratulations popup
+    if (numMatches === ((cards.length)/2)) {
+        gameWon();
+    }
 }
 
 /*
