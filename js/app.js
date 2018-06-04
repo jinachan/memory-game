@@ -1,7 +1,8 @@
 /* Memory card game by Jina Chan for Udacity front-end nanodegree, May 2018
  *
- * Credit: my approach was informed by Mike Wales' webinar, https://www.youtube.com/watch?v=_rUH-sEs68Y
- *
+ * Credits: my approach was informed by Mike Wales' webinar, https://www.youtube.com/watch?v=_rUH-sEs68Y
+ *          and by Pascal Meers' project planning tutorial, https://docs.google.com/document/d/1xI7Hk1uQtitVuU2lfgWGS4Ic4CWsGEr0L1P1Vt7IYMs/
+ * 
  * Rubric: https://review.udacity.com/#!/rubrics/591/view
  * /
 
@@ -32,6 +33,7 @@ let numMatches = 0;
 const deck = document.querySelector('.deck');
 const moveCounter = document.querySelector('.moves');
 const stars = document.querySelector('.stars');
+
 /* For debugging: */
 const mainHeader = document.querySelector('h1');
 const restart = document.querySelector('.restart');
@@ -59,14 +61,14 @@ function addShowingCard (card) {
     // Add card to faceUp array
     faceUp.push(card);
 
-    mainHeader.textContent = 'Cards showing: ' + faceUp.length;  // Debugging
+    // mainHeader.textContent = 'Cards showing: ' + faceUp.length;  // Debugging
 }
 
 function removeShowingCard (card) {
     // Remove card from faceUp array
     faceUp.pop(card);
 
-    mainHeader.textContent = 'Cards showing: ' + faceUp.length;  // Debugging
+    // mainHeader.textContent = 'Cards showing: ' + faceUp.length;  // Debugging
 }
 
 function lockMatchingCards (cards) {
@@ -75,7 +77,7 @@ function lockMatchingCards (cards) {
         c.classList.remove('open', 'show');
     });
 
-    mainHeader.textContent = 'Matched!';  // Debugging
+    // mainHeader.textContent = 'Matched!';  // Debugging
 }
 
 function matchFail (cards) {
@@ -87,6 +89,33 @@ function matchFail (cards) {
     }, 500);
 }
 
+function generateStar() {
+    return '<li><i class="fa fa-star"></i></li>';
+}
+
+function adjustScoreBoard () {
+    // Update move counter
+    moveCounter.textContent = numMoves;
+    // mainHeader.textContent = 'Stars: ' + stars.outerHTML; // Debugging
+
+    if (numMoves === 0) {
+        // Initialize the stars
+        // Create the HTML for 3 stars
+        let starHTML = '';
+        for (let i=0; i<3; i++) {
+            starHTML += generateStar();
+            // mainHeader.textContent = 'starHTML: ' + starHTML; // Debugging
+        }
+        
+        stars.innerHTML =  starHTML;
+    } else if (numMoves === 25 || numMoves === 35) {
+        // Decrease stars <li>s as numMoves increases
+        // Decrease stars by one -- remove the first star in the list
+        // mainHeader.textContent = 'Removing a star: ' + stars.firstElementChild.outerHTML; // Debugging
+        stars.firstElementChild.remove();
+    }
+}
+
 /*
 * Define click event handler for each card
 */
@@ -94,7 +123,7 @@ function cardClickListener(event) {
     event.preventDefault();
     if (this.classList.contains('match')) {
         // The card is already matched: do nothing
-        mainHeader.textContent = 'Already matched';  // Debugging
+        // mainHeader.textContent = 'Already matched';  // Debugging
     } else {
         if ( (this.classList.contains('open')) && this.classList.contains('show') ) {
             // The card is already showing so we'll hide it
@@ -104,7 +133,7 @@ function cardClickListener(event) {
             // Check how many cards are already showing
             if (faceUp.length === 2) {
                 // Two cards are already showing: do nothing
-                 mainHeader.textContent = 'Not turning a 3rd card';  // Debugging
+                // mainHeader.textContent = 'Not turning a 3rd card';  // Debugging
             } else {
                 // Show the card
                flipCard(this);
@@ -123,15 +152,14 @@ function cardClickListener(event) {
             lockMatchingCards(faceUp);
             numMatches++;
         } else {
-            mainHeader.textContent = 'Match failed';  // Debugging
+            mainHeader.textContent = 'Sorry, not a match';  // Debugging
             matchFail(faceUp);
         }
         faceUp = [];  // Either way, we have no cards left face up
     }
 
-    // Update move counter
-    moveCounter.textContent = numMoves;
-    // TO DO: decrease stars <li>s as numMoves increases
+    adjustScoreBoard();
+ 
     // TO DO: If all cards matched, show Congratulations popup
     
 }
@@ -166,16 +194,17 @@ function generateCard(card) {
 function initGame() {
     shuffle(cards);
 
+    // Create the card elements
     let cardHTML = cards.map(function (card) {
         return generateCard(card);
     });
 
     deck.innerHTML =  cardHTML.join('');
 
+    // Initialize the scoreboard
     numMoves = 0;
     numMatches = 0;
-    // Set move counter
-    moveCounter.textContent = numMoves;
+    adjustScoreBoard();
 
     // Add event listener to each card
     allCards = document.querySelectorAll('.card');
