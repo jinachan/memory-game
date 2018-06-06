@@ -20,14 +20,17 @@ let cards = ['fa-diamond', 'fa-diamond',
 
 let allCards = [];
 
+const maxStars = 3;
+
 /*
  * Other variables 
  */
 let faceUp = [];
 let numMoves = 0;
 let numMatches = 0;
-let numStars = 3;
-const maxStars = 3;
+let numStars = maxStars;
+let t = 0;
+let gameWon = false;
 
 /* 
  * DOM elements
@@ -36,13 +39,31 @@ const deck = document.querySelector('.deck');
 const moveCounter = document.querySelector('.moves');
 const stars = document.querySelector('.stars');
 const modal = document.querySelector('.modal');
-const congrats = document.querySelector('#congrats');
+const congratsMessage = document.querySelector('#congrats');
 const closeButton = document.querySelector('.close-button');
+const playAgainButton = document.querySelector('.play-again-button');
 const restartButton = document.querySelector('.restart');
+const timeCounter = document.querySelector('#time');
 
 /* For debugging: */
 const mainHeader = document.querySelector('.container h1');
 
+/*
+ * Timer function
+ * Credit: Robert J. Allen, https://codepen.io/bobbidigi34/pen/QxWLba?editors=0010
+ */
+function Timer () {
+     var timer = setInterval(function() {
+           // console.log(t);
+           t++;
+           if( (t >= 0) && !gameWon) {
+             timeCounter.innerHTML = t;
+             //here you could put other conditionals to make mins or whatever
+              /*clearInterval(timer);*/
+           }
+       }, 1000);
+   }
+var timer = new Timer();
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -138,9 +159,9 @@ function windowOnClick(event) {
 closeButton.addEventListener('click', toggleModal);
 window.addEventListener('click', windowOnClick);
 
-function gameWon() {
-    // TO DO: tell the user how much time it took to win the game 
-    congrats.innerHTML = `<p>You won the game in TBD time with ${numStars} stars`;
+function winGame() {
+    gameWon = true;
+    congratsMessage.innerHTML = `<p>You won the game in ${t} seconds with ${numStars} stars`;
     // TO DO: Add a "play again" button to the modal
     toggleModal();
 }
@@ -191,7 +212,7 @@ function cardClickListener(event) {
  
     // If all cards matched, show Congratulations popup
     if (numMatches === ((cards.length)/2)) {
-        gameWon();
+        winGame();
     }
 }
 
@@ -232,9 +253,15 @@ function initGame() {
 
     deck.innerHTML =  cardHTML.join('');
 
+    // Reset the time, winning boolean, and array of face-up cards
+    t = 0;
+    gameWon = false;
+    faceUp = [];
+
     // Initialize the scoreboard
     numMoves = 0;
     numMatches = 0;
+    numStars = maxStars;
     adjustScoreBoard();
 
     // Add event listener to each card
@@ -248,3 +275,9 @@ initGame();
 
 // Event listener for restart icon, that shuffles array and resets scoreboard
 restartButton.addEventListener('click', initGame);
+
+// Event lsitener for play again button when game is won
+playAgainButton.addEventListener('click', function() {
+    toggleModal();
+    initGame();
+});
