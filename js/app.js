@@ -32,6 +32,7 @@ let numStars = maxStars;
 let timer;
 let timerSeconds = 0;
 let gameWon = false;
+let clickCount = 0;
 
 /* 
  * DOM elements
@@ -180,13 +181,23 @@ function winGame() {
 function cardClickListener(event) {
     event.preventDefault();
     if (numMoves === 0) {
-        startTimer();
+        startTimer();  // Start the timer with the first card-flip
     }
 
     if (this.classList.contains('match')) {
         // The card is already matched: do nothing
         // mainHeader.textContent = 'Already matched';  // Debugging
     } else {
+        clickCount++;
+        if ( (clickCount % 2) === 0) {
+            // On every 2nd click, we increment the count of moves made.
+            // If the player clicks a card twice (flips it over and back),
+            // it counts as a move. Initially the move count only incremented
+            // when two cards were face-up, but that meant the player could
+            // cheat the game by flipping every card over and back, and none
+            // of it was counted as a move.
+            numMoves++;
+        }
         if ( (this.classList.contains('open')) && this.classList.contains('show') ) {
             // The card is already showing so we'll hide it
             flipCard(this);
@@ -205,8 +216,6 @@ function cardClickListener(event) {
     }
 
     if (faceUp.length === 2) {
-        // Increment the count of moves made
-        numMoves++;
         if (faceUp[0].children[0].classList.value === faceUp[1].children[0].classList.value) {
             // It's a match
             // mainHeader.textContent = 'Got a match';  // Debugging
@@ -264,8 +273,8 @@ function initGame() {
 
     deck.innerHTML =  cardHTML.join('');
 
-    // Reset the time, winning boolean, and array of face-up cards
-    
+    // Reset the click count, timer, winning boolean, and array of face-up cards
+    clickCount = 0;
     if (timer) { stopTimer(); }
     gameWon = false;
     faceUp = [];
