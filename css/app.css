@@ -39,7 +39,7 @@ h1 {
 
 .deck {
     width: 660px;
-    min-height: 680px;
+    /* min-height: 680px; */
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
     padding: 32px;
     border-radius: 10px;
@@ -159,4 +159,69 @@ h1 {
  */
 #time { 
     font-size: 42px;
+}
+
+/*
+ * Styles for responsive design
+ */
+
+/* Make sure nothing is wider than the screen width! */
+img,
+video,
+object,
+embed {
+  max-width: 100%;
+}
+
+/* Breakpoints */
+@media screen and (max-width: 560px) {
+  .deck {
+    max-width: 320px;
+    max-height: 330px;
+    padding: 6px;
+    align-content: center;
+  }
+  .deck .card {
+    max-width: 62px;
+    max-height: 62px;
+    margin: 6px;
+  }
+  .score-panel {
+    max-width: 320px;
+  }
+  .score-panel .stars li {
+    font-size: 32px;
+  }
+  .restart i {
+    font-size: 32px;
+  }
+}
+
+@media screen and (min-width: 561px) and (max-width: 690px) {
+  .deck {
+    max-width: 550px;
+    max-height: 570px;
+    align-content: center;
+    padding: 10px;
+  }
+  .deck .card {
+    max-width: 100px;
+    max-height: 100px;
+    margin: 10px;
+  }
+  .score-panel {
+    max-width: 550px;
+  }
+  .score-panel .stars li {
+    font-size: 24px;
+  }
+  .restart i {
+    font-size: 24px;
+  }
+}
+
+@media screen and (min-width: 691px) {
+    .deck {
+        min-height: 680px;
+    }
 }
