@@ -5,19 +5,28 @@ For: Udacity Front-End Nanodegree (FEND) 2018
 
 ## Table of Contents
 
-* [Instructions](#instructions)
+* [Game Description](#description)
+* [Code Dependencies](#dependencies)
 * [Contributing](#contributing)
 
-## Instructions
+## Description
+This is a memory card game in which the player clicks or taps cards to flip them over and reveal the symbol. There are two cards with each symbol in the game. The player wins once all cards have successfully been matched.
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+The game displays a star rating (from 1 to 3) that reflects the player's performance. At the beginning of a game, it displays 3 stars. As the player makes moves, the number of stars decreases.
 
-To get started, open `js/app.js` and start building out the app's functionality
+When the player starts a game, a timer begins. Once the player wins the game, the timer stops.
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+When a user wins the game, a modal appears to congratulate the player and ask if they want to play again. It also shows how much time it took to win the game, and what the star rating was.
+
+A restart button allows the player to reset the deck of cards, the timer, and the star rating.
+
+
+## Dependencies
+The game uses Font Awesome for icons and Google Fonts for text.
+
 
 ## Contributing
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+This repository is a class assignment for a Udacity nanodegree, completed by a single student. Therefore, it will not accept pull requests.
 
 For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).

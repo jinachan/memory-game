@@ -29,7 +29,8 @@ let faceUp = [];
 let numMoves = 0;
 let numMatches = 0;
 let numStars = maxStars;
-let t = 0;
+let timer;
+let timerSeconds = 0;
 let gameWon = false;
 
 /* 
@@ -55,15 +56,24 @@ const mainHeader = document.querySelector('.container h1');
 function Timer () {
      var timer = setInterval(function() {
            // console.log(t);
-           t++;
-           if( (t >= 0) && !gameWon) {
-             timeCounter.innerHTML = t;
+           timerSeconds++;
+           if( (timerSeconds >= 0) && !gameWon) {
+             timeCounter.innerHTML = timerSeconds;
              //here you could put other conditionals to make mins or whatever
-              /*clearInterval(timer);*/
            }
        }, 1000);
    }
-var timer = new Timer();
+   
+/* Additional timer functions based on Chris N's writeup: https://gwgnanodegrees.slack.com/files/UA8PXHUR3/FB0Q3CSMB/Getting_the_Memory_Game_timer_to_work */
+
+function startTimer() {
+    timer = new Timer();
+}
+
+function stopTimer() {
+    clearInterval(timer);
+    timerSeconds = 0;
+}
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -161,7 +171,7 @@ window.addEventListener('click', windowOnClick);
 
 function winGame() {
     gameWon = true;
-    congratsMessage.innerHTML = `<p>You won the game in ${t} seconds with ${numStars} stars`;
+    congratsMessage.innerHTML = `<p>You won the game in ${timerSeconds} seconds with ${numStars} stars`;
     // TO DO: Add a "play again" button to the modal
     toggleModal();
 }
@@ -171,6 +181,10 @@ function winGame() {
 */
 function cardClickListener(event) {
     event.preventDefault();
+    if (numMoves === 0) {
+        startTimer();
+    }
+
     if (this.classList.contains('match')) {
         // The card is already matched: do nothing
         // mainHeader.textContent = 'Already matched';  // Debugging
@@ -253,7 +267,8 @@ function initGame() {
     deck.innerHTML =  cardHTML.join('');
 
     // Reset the time, winning boolean, and array of face-up cards
-    t = 0;
+    
+    if (timer) { stopTimer(); }
     gameWon = false;
     faceUp = [];
 
