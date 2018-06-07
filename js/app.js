@@ -39,11 +39,11 @@ const deck = document.querySelector('.deck');
 const moveCounter = document.querySelector('.moves');
 const stars = document.querySelector('.stars');
 const modal = document.querySelector('.modal');
-const congratsMessage = document.querySelector('#congrats');
+const congratsMessage = document.querySelector('.congrats');
 const closeButton = document.querySelector('.close-button');
 const playAgainButton = document.querySelector('.play-again-button');
 const restartButton = document.querySelector('.restart');
-const timeCounter = document.querySelector('#time');
+const timeCounter = document.querySelector('.time');
 
 /* For debugging: */
 const mainHeader = document.querySelector('.container h1');
