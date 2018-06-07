@@ -137,6 +137,7 @@ h1 {
      background-color: white;
      padding: 1rem 1.5rem;
      width: 24rem;
+     max-width: 100%;  // Modified for responsive design
      border-radius: 0.5rem;
  }
 
@@ -159,6 +160,16 @@ h1 {
     visibility: visible;
     transform: scale(1.0);
     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+
+/* Additional modal styling by me */
+.play-again-button {
+    border-radius: 0.25rem;
+    background-color: goldenrod;
+}
+
+.play-again-button:hover {
+    background-color: orange;
 }
 
 /*
@@ -223,10 +234,10 @@ embed {
     max-width: 320px;
   }
   .score-panel .stars li {
-    font-size: 32px;
+    font-size: 28px;
   }
   .restart i {
-    font-size: 32px;
+    font-size: 28px;
   }
 }
 

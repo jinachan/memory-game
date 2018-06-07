@@ -55,7 +55,6 @@ const mainHeader = document.querySelector('.container h1');
  */
 function Timer () {
      var timer = setInterval(function() {
-           // console.log(t);
            timerSeconds++;
            if( (timerSeconds >= 0) && !gameWon) {
              timeCounter.innerHTML = timerSeconds;
@@ -171,8 +170,7 @@ window.addEventListener('click', windowOnClick);
 
 function winGame() {
     gameWon = true;
-    congratsMessage.innerHTML = `<p>You won the game in ${timerSeconds} seconds with ${numStars} stars`;
-    // TO DO: Add a "play again" button to the modal
+    congratsMessage.innerHTML = `<p>You won the game in ${timerSeconds} seconds in ${numMoves} moves, with ${numStars} stars`;
     toggleModal();
 }
 
