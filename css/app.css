@@ -26,6 +26,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    max-width: 100%;
 }
 
 h1 {
@@ -38,8 +39,9 @@ h1 {
  */
 
 .deck {
-    width: 660px;
+    /* width: 660px; */
     /* min-height: 680px; */
+    max-width: 100%;
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
     padding: 32px;
     border-radius: 10px;
@@ -88,6 +90,7 @@ h1 {
 .score-panel {
     text-align: left;
     width: 345px;
+    max-width: 100%;
     margin-bottom: 10px;
 }
 
@@ -182,7 +185,29 @@ embed {
 
 /* Breakpoints */
 
-@media screen and (max-width: 560px) {
+@media screen and (max-width: 320px) {
+    .deck {
+        padding: 6px;
+        align-content: center;
+        margin: 0;
+      }
+      .deck .card {
+        max-width: 62px;
+        max-height: 62px;
+        margin: 6px;
+      }
+      .score-panel {
+        margin: 0;
+      }
+      .score-panel .stars li {
+        font-size: 20px;
+      }
+      .restart i {
+        font-size: 20px;
+      }  
+}
+
+@media screen and (min-width: 321px) and (max-width: 560px) {
   .deck {
     max-width: 320px;
     max-height: 330px;
@@ -230,6 +255,7 @@ embed {
 
 @media screen and (min-width: 691px) {
     .deck {
+        width: 660px;
         min-height: 680px;
     }
 }
