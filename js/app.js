@@ -190,12 +190,11 @@ function cardClickListener(event) {
                addShowingCard(this);
             }
         }
-        // Increment the count of moves made
-        numMoves++;
     }
 
-    // If we have 2 cards up now, check for a match
     if (faceUp.length === 2) {
+        // Increment the count of moves made
+        numMoves++;
         if (faceUp[0].children[0].classList.value === faceUp[1].children[0].classList.value) {
             // It's a match
             // mainHeader.textContent = 'Got a match';  // Debugging
