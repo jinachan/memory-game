@@ -137,7 +137,7 @@ h1 {
      background-color: white;
      padding: 1rem 1.5rem;
      width: 24rem;
-     max-width: 100%;  // Modified for responsive design
+     max-width: 100%;   /* Modified for responsive design */
      border-radius: 0.5rem;
  }
 

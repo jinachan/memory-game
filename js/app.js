@@ -143,7 +143,7 @@ function adjustScoreBoard() {
             // mainHeader.textContent = 'starHTML: ' + starHTML; // Debugging
         }
         stars.innerHTML =  starHTML;
-    } else if (numMoves === 25 || numMoves === 35) {
+    } else if ( (numMoves === 20) || (numMoves === 30) ) {
         // Decrease stars <li>s as numMoves increases
         // Decrease stars by one -- remove the first star in the list
         // mainHeader.textContent = 'Removing a star: ' + stars.firstElementChild.outerHTML; // Debugging
@@ -197,6 +197,7 @@ function cardClickListener(event) {
             // cheat the game by flipping every card over and back, and none
             // of it was counted as a move.
             numMoves++;
+            adjustScoreBoard();
         }
         if ( (this.classList.contains('open')) && this.classList.contains('show') ) {
             // The card is already showing so we'll hide it
@@ -227,8 +228,6 @@ function cardClickListener(event) {
         }
         faceUp = [];  // Either way, we have no cards left face up
     }
-
-    adjustScoreBoard();
  
     // If all cards matched, show Congratulations popup
     if (numMatches === ((cards.length)/2)) {
