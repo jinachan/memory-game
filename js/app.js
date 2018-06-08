@@ -30,8 +30,8 @@ let numMoves = 0;
 let numMatches = 0;
 let numStars = maxStars;
 let timer;
+let timerMinutes = 0;
 let timerSeconds = 0;
-let gameWon = false;
 let clickCount = 0;
 
 /* 
@@ -45,34 +45,40 @@ const congratsMessage = document.querySelector('.congrats');
 const closeButton = document.querySelector('.close-button');
 const playAgainButton = document.querySelector('.play-again-button');
 const restartButton = document.querySelector('.restart');
-const timeCounter = document.querySelector('.time');
+const timeCounter = document.querySelector('.timer-output');
 
 /* For debugging: */
 const mainHeader = document.querySelector('.container h1');
 
 /*
- * Timer function
- * Credit: Robert J. Allen, https://codepen.io/bobbidigi34/pen/QxWLba?editors=0010
+ * Timer functions
+ * Credit: Chris N, https://gwgnanodegrees.slack.com/files/UA8PXHUR3/FB0Q3CSMB/Getting_the_Memory_Game_timer_to_work
  */
-function Timer () {
-     var timer = setInterval(function() {
-           timerSeconds++;
-           if( (timerSeconds >= 0) && !gameWon) {
-             timeCounter.innerHTML = timerSeconds;
-             //here you could put other conditionals to make mins or whatever
-           }
-       }, 1000);
-   }
-   
-/* Additional timer functions based on Chris N's writeup: https://gwgnanodegrees.slack.com/files/UA8PXHUR3/FB0Q3CSMB/Getting_the_Memory_Game_timer_to_work */
 
 function startTimer() {
-    timer = new Timer();
+    timer = setInterval(insertTime, 1000);
 }
 
 function stopTimer() {
     clearInterval(timer);
     timerSeconds = 0;
+    timerMinutes = 0;
+}
+
+ function insertTime() {
+    timerSeconds++;
+    
+    if (timerSeconds < 10) {
+        timerSeconds = `0${timerSeconds}`;
+    }
+    
+    if (timerSeconds >= 60) {
+        timerMinutes++;
+        timerSeconds = "00";
+    }
+
+    // display time
+    timeCounter.innerHTML = timerMinutes + ":" + timerSeconds;
 }
 
 /*
@@ -170,8 +176,8 @@ closeButton.addEventListener('click', toggleModal);
 window.addEventListener('click', windowOnClick);
 
 function winGame() {
-    gameWon = true;
-    congratsMessage.innerHTML = `<p>You won the game in ${timerSeconds} seconds in ${numMoves} moves, with ${numStars} stars`;
+    congratsMessage.innerHTML = `<p>You won the game in ${timerMinutes}:${timerSeconds} in ${numMoves} moves, with ${numStars} stars`;
+    stopTimer();
     toggleModal();
 }
 
@@ -244,7 +250,7 @@ function cardClickListener(event) {
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    var currentIndex = array.length, temporaryValue, randomindex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -272,10 +278,9 @@ function initGame() {
 
     deck.innerHTML =  cardHTML.join('');
 
-    // Reset the click count, timer, winning boolean, and array of face-up cards
+    // Reset the click count, timer, and array of face-up cards
     clickCount = 0;
     if (timer) { stopTimer(); }
-    gameWon = false;
     faceUp = [];
 
     // Initialize the scoreboard

@@ -173,15 +173,6 @@ h1 {
 }
 
 /*
- * Style for the timer
- * Credit: Robert J. Allen, https://codepen.io/bobbidigi34/pen/QxWLba?editors=0100
- */
-
-.time { 
-    font-size: 42px;
-}
-
-/*
  * Styles for responsive design
  */
 
@@ -210,12 +201,11 @@ embed {
       .score-panel {
         margin: 0;
       }
-      .score-panel .stars li {
+      .score-panel .stars li,
+      .restart i,
+      .timer-output {
         font-size: 20px;
-      }
-      .restart i {
-        font-size: 20px;
-      }  
+      } 
 }
 
 @media screen and (min-width: 321px) and (max-width: 560px) {
@@ -233,10 +223,9 @@ embed {
   .score-panel {
     max-width: 320px;
   }
-  .score-panel .stars li {
-    font-size: 28px;
-  }
-  .restart i {
+  .score-panel .stars li, 
+  .restart i,
+  .timer-output {
     font-size: 28px;
   }
 }
@@ -256,10 +245,9 @@ embed {
   .score-panel {
     max-width: 550px;
   }
-  .score-panel .stars li {
-    font-size: 24px;
-  }
-  .restart i {
+  .score-panel .stars li,
+  .restart i,
+  .timer-output {
     font-size: 24px;
   }
 }
